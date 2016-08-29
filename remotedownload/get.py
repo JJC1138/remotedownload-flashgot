@@ -75,7 +75,7 @@ class Downloader:
             if len(self.urls) == 1:
                 filename = os.path.basename(_data.get(fields.filename, ''))
 
-        return os.path.abspath(filename) if filename else None
+        return filename
 
 def main():
     with open(sys.argv[1], 'rb') as f: downloader = Downloader(f.read())
@@ -105,4 +105,4 @@ def main():
         else:
             final_filename = out_file.name
 
-        log(final_filename)
+        log(os.path.abspath(final_filename))
