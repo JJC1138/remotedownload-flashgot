@@ -31,7 +31,7 @@ def serialize(argv):
 
     args['ufile'] = args['ufile'].split()
 
-    return json.dumps(args)
+    return json.dumps(args).encode(encoding)
 
 def main():
     import sys
@@ -41,8 +41,8 @@ def main():
     args, unparsed_args = arg_parser.parse_known_args(sys.argv)
 
     if args.output_file:
-        out = open(args.output_file, 'wt', encoding=encoding)
+        out = open(args.output_file, 'wb')
     else:
-        out = sys.stdout
+        out = sys.stdout.buffer
 
     out.write(serialize(unparsed_args))
