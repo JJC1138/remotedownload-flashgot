@@ -5,7 +5,6 @@ import json
 import os
 import os.path
 import posixpath
-import sys
 import tempfile
 import urllib.parse
 
@@ -78,6 +77,8 @@ class Downloader:
         return filename
 
 def main():
+    import sys
+
     with open(sys.argv[1], 'rb') as f: downloader = Downloader(f.read())
 
     for url in downloader.urls:
