@@ -74,7 +74,7 @@ class Downloader:
             if len(self.urls) == 1:
                 filename = os.path.basename(_data.get(fields.filename, ''))
 
-        return filename
+        return filename or None # return None instead of empty string
 
 def main():
     import sys
