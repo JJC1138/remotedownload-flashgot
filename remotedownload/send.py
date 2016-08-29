@@ -2,17 +2,12 @@
 
 import argparse
 import json
-import sys
 
 from . import *
 
-def send():
+def serialize(argv):
     # [--comment COMMENT][--referer REFERER][--folder FOLDER][--fname FNAME][--headers HEADERS][--post POST][--ufile UFILE][--cfile CFILE][--ua UA]
-
-    if len(sys.argv) == 1:
-        sys.argv.append('-h')
-
-    arg_parser = argparse.ArgumentParser()
+    arg_parser = argparse.ArgumentParser(allow_abbrev=False)
 
     # - not using:
     # url: replicated in ufile in more complete format (supporting multiple files at once)
@@ -23,7 +18,7 @@ def send():
     for i in fields.__dict__.values():
         arg_parser.add_argument('--%s' % i)
 
-    args = vars(arg_parser.parse_args())
+    args = vars(arg_parser.parse_known_args(argv)[0])
 
     # remove None and empty values:
     args = { k: v for k, v in args.items() if v }
@@ -36,5 +31,18 @@ def send():
 
     args['ufile'] = args['ufile'].split()
 
-    with open('/Users/Jon/Downloads/dllog', 'wt', encoding=encoding) as f:
-        f.write(json.dumps(args))
+    return json.dumps(args)
+
+def main():
+    import sys
+
+    arg_parser = argparse.ArgumentParser(allow_abbrev=False)
+    arg_parser.add_argument('--output-file', '-o')
+    args, unparsed_args = arg_parser.parse_known_args(sys.argv)
+
+    if args.output_file:
+        out = open(args.output_file, 'wt', encoding=encoding)
+    else:
+        out = sys.stdout
+
+    out.write(serialize(unparsed_args))
