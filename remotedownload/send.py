@@ -4,20 +4,23 @@ import argparse
 import json
 import sys
 
-def send():
-    def log(message): print(message)
+from . import *
 
-    # [--comment COMMENT][--referer REFERER][--folder FOLDER][--fname FNAME][--headers HEADERS][--post POST][--rawpost RAWPOST][--ufile UFILE][--cfile CFILE][--userpass USERPASS][--ua UA]
+def send():
+    # [--comment COMMENT][--referer REFERER][--folder FOLDER][--fname FNAME][--headers HEADERS][--post POST][--ufile UFILE][--cfile CFILE][--ua UA]
+
     if len(sys.argv) == 1:
         sys.argv.append('-h')
 
     arg_parser = argparse.ArgumentParser()
 
-    # not using:
+    # - not using:
     # url: replicated in ufile in more complete format (supporting multiple files at once)
     # cookie: replicated in cfile in a more complete format
     # ulist: replicated in ufile in a more manageable format
-    for i in ['comment', 'referer', 'folder', 'fname', 'headers', 'post', 'rawpost', 'ufile', 'cfile', 'userpass', 'ua']:
+    # rawpost: is a combination of headers and post
+    # userpass: are included in the URL
+    for i in fields.__dict__.values():
         arg_parser.add_argument('--%s' % i)
 
     args = vars(arg_parser.parse_args())
@@ -33,5 +36,5 @@ def send():
 
     args['ufile'] = args['ufile'].split()
 
-    with open('/Users/Jon/Downloads/dllog', 'wt', encoding='utf-8') as f:
+    with open('/Users/Jon/Downloads/dllog', 'wt', encoding=encoding) as f:
         f.write(json.dumps(args))
