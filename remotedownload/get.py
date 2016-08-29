@@ -97,11 +97,7 @@ def main():
                     final_filename = '%s %d%s' % (root, duplicate_number, ext)
                     duplicate_number += 1
 
-            if sys.platform.startswith('win32'):
-                # Windows will fail if the file exists so:
-                os.remove(final_filename)
-
-            os.rename(out_file.name, final_filename)
+            os.replace(out_file.name, final_filename)
         else:
             final_filename = out_file.name
 
