@@ -13,11 +13,12 @@ import requests
 
 from . import *
 
-def get():
+def get(data):
     # - Unused parameters:
     # comment
     # folder
-    with open(sys.argv[1], 'rt', encoding=encoding) as f: data = json.load(f)
+
+    data = json.loads(data.decode(encoding))
 
     session = requests.Session()
     session.headers.update({
@@ -96,3 +97,6 @@ def get():
             final_filename = out_file.name
 
         log(final_filename)
+
+def main():
+    with open(sys.argv[1], 'rb') as f: get(f.read())

@@ -6,7 +6,7 @@ setuptools.setup(
     packages = setuptools.find_packages(),
     entry_points = {'console_scripts': [
         'remotedownloadsend = remotedownload.send:main',
-        'remotedownloadget = remotedownload.get:get',
+        'remotedownloadget = remotedownload.get:main',
     ]},
     install_requires = ['requests'],
 )
