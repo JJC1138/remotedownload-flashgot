@@ -12,6 +12,8 @@ import requests
 
 from . import *
 
+def log(message): print(message)
+
 class Downloader:
     def __init__(self, data):
         # - Unused parameters:

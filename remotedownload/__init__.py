@@ -1,4 +1,4 @@
-__all__ = ['StringAttributes', 'field_keys', 'item_keys', 'encoding', 'log']
+__all__ = ['StringAttributes', 'field_keys', 'item_keys', 'encoding']
 
 class StringAttributes():
     def __init__(self, items):
@@ -24,5 +24,3 @@ item_keys = StringAttributes([
 ])
 
 encoding = 'utf-8'
-
-def log(message): print(message)
