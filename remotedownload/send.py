@@ -48,9 +48,9 @@ def serialize(argv):
         arg_names.referer: field_keys.referer,
         arg_names.folder: field_keys.folder,
         arg_names.headers: field_keys.headers,
-        arg_names.post: field_keys.postData,
+        arg_names.post: field_keys.post_data,
         arg_names.cfile: field_keys.cookies,
-        arg_names.ua: field_keys.userAgent,
+        arg_names.ua: field_keys.user_agent,
     }
 
     data = { arg_names_to_data_key_names[k]: v for k, v in args.items() if k in arg_names_to_data_key_names.keys() }

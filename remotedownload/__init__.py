@@ -12,14 +12,17 @@ field_keys = StringAttributes([
     'referer',
     'folder',
     'headers',
-    'postData',
     'cookies',
-    'userAgent',
     'items',
 ])
+field_keys.post_data = 'postData'
+field_keys.user_agent = 'userAgent'
+
 item_keys = StringAttributes([
     'url',
     'filename'
 ])
+
 encoding = 'utf-8'
+
 def log(message): print(message)

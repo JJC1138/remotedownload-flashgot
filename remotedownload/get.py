@@ -23,7 +23,7 @@ class Downloader:
         session = requests.Session()
         session.headers.update({
             'Referer': data[field_keys.referer],
-            'User-Agent': data[field_keys.userAgent],
+            'User-Agent': data[field_keys.user_agent],
         })
 
         cookies_txt = data.get(field_keys.cookies)
@@ -52,7 +52,7 @@ class Downloader:
         self.urls = [i[item_keys.url] for i in data[field_keys.items]]
 
     def get(self, url, out_file, chunk_size=4096):
-        post = self._data.get(field_keys.postData)
+        post = self._data.get(field_keys.post_data)
         if post:
             response = self._session.post(url, data=post, headers={'Content-Type': 'application/x-www-form-urlencoded'})
         else:
