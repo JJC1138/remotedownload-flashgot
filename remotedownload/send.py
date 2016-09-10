@@ -15,7 +15,19 @@ def serialize(argv):
     # ulist: replicated in ufile in a more manageable format
     # rawpost: is a combination of headers and post
     # userpass: are included in the URL
-    for i in fields.__dict__.values():
+    arg_names = StringAttributes([
+        'comment',
+        'referer',
+        'folder',
+        'fname',
+        'headers',
+        'post',
+        'ufile',
+        'cfile',
+        'ua',
+    ])
+
+    for i in arg_names:
         arg_parser.add_argument('--%s' % i)
 
     args = vars(arg_parser.parse_known_args(argv)[0])
@@ -23,15 +35,32 @@ def serialize(argv):
     # remove None and empty values:
     args = { k: v for k, v in args.items() if v }
 
-    for i in ['cfile', 'ufile']:
+    for i in [arg_names.cfile, arg_names.ufile]:
         arg = args.get(i)
         if arg is None: continue
         with open(arg, 'rt', encoding='utf-8') as f:
             args[i] = f.read()
 
-    args['ufile'] = args['ufile'].split()
+    args[arg_names.ufile] = args[arg_names.ufile].split()
 
-    return json.dumps(args).encode(encoding)
+    arg_names_to_data_key_names = {
+        arg_names.comment: field_keys.label,
+        arg_names.referer: field_keys.referer,
+        arg_names.folder: field_keys.folder,
+        arg_names.headers: field_keys.headers,
+        arg_names.post: field_keys.postData,
+        arg_names.cfile: field_keys.cookies,
+        arg_names.ua: field_keys.userAgent,
+    }
+
+    data = { arg_names_to_data_key_names[k]: v for k, v in args.items() if k in arg_names_to_data_key_names.keys() }
+    data[field_keys.items] = [{ item_keys.url: url } for url in args[arg_names.ufile]]
+
+    if len(data[field_keys.items]) == 1:
+        # The filename is only meaningful if we have only one item to download.
+        data[field_keys.items][0][item_keys.filename] = args[arg_names.fname]
+
+    return json.dumps(data).encode(encoding)
 
 def main():
     import sys

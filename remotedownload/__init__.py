@@ -1,20 +1,25 @@
-__all__ = ['fields', 'encoding', 'log']
+__all__ = ['StringAttributes', 'field_keys', 'item_keys', 'encoding', 'log']
 
-class Struct:
-    def __init__(self, **entries):
-        self.__dict__.update(entries)
+class StringAttributes():
+    def __init__(self, items):
+        for i in items:
+            setattr(self, i, i)
+    def __iter__(self):
+        return iter(self.__dict__.keys())
 
-fields = Struct(
-    comment = 'comment',
-    referer = 'referer',
-    folder = 'folder',
-    filename = 'fname',
-    headers = 'headers',
-    post = 'post',
-    urls = 'ufile',
-    cookies_txt = 'cfile',
-    userpass = 'userpass',
-    user_agent = 'ua',
-)
+field_keys = StringAttributes([
+    'label',
+    'referer',
+    'folder',
+    'headers',
+    'postData',
+    'cookies',
+    'userAgent',
+    'items',
+])
+item_keys = StringAttributes([
+    'url',
+    'filename'
+])
 encoding = 'utf-8'
 def log(message): print(message)
