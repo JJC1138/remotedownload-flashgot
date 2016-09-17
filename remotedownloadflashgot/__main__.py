@@ -58,7 +58,9 @@ def serialize(argv):
 
     if len(data[field_keys.items]) == 1:
         # The filename is only meaningful if we have only one item to download.
-        data[field_keys.items][0][item_keys.filename] = args[arg_names.fname]
+        fname = args.get(arg_names.fname)
+        if fname:
+            data[field_keys.items][0][item_keys.filename] = fname
 
     return json.dumps(data).encode(encoding)
 
